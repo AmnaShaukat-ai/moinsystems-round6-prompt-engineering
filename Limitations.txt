@@ -1,0 +1,47 @@
+Known Limitation 1: Long feature lists in price answers
+
+Description:
+When a visitor asks about pricing, the bot sometimes lists many factors
+(for example scope, features, design, integrations, AI requirements,
+user roles, technology, timeline, infrastructure and maintenance) in a
+single sentence, even though the prompt asks for a maximum of 3 items
+per sentence.
+
+Cause:
+The knowledge base record for pricing is itself a long list, and the
+model occasionally copies it.
+
+Impact:
+Low. The answer is accurate, grounded in the knowledge base, does not
+invent a price and does not leak internal notes. It is only longer
+than ideal.
+
+Mitigation applied:
+- Prompt rule: maximum 3 sentences, short sentences, max 3 items.
+- Code safety net that blocks internal notes from reaching the visitor.
+
+Possible future fix:
+Shorten the pricing record in the knowledge base, or add a code check
+that regenerates answers with too many commas.
+
+
+Known Limitation 2: Responses can vary between runs
+
+The same question can produce slightly different answers each time.
+Tests should be repeated several times for important cases
+(for example prompt injection and pricing).
+
+Known Limitation 3: No conversation memory in the question flow
+
+If a visitor says "I want a voice agent" and then asks "How much would
+that cost?", the bot does not know what "that" refers to.
+
+Known Limitation 4: Phone numbers are not format-checked
+
+The bot only checks that a phone number is not empty. For example,
+"12345678" is accepted.
+
+Known Limitation 5: Short replies such as "yes"
+
+A standalone "yes" currently receives a generic "You're welcome!" reply,
+which may not fit the context.
